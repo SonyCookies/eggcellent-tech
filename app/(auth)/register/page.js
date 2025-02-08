@@ -68,6 +68,15 @@ export default function RegisterPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // Check for empty fields
+    const emptyFields = Object.entries(form).filter(
+      ([key, value]) => value === ""
+    );
+    if (emptyFields.length > 0) {
+      setGlobalMessage("Please fill in all fields.");
+      return;
+    }
+
     // Check if there are any remaining validation errors
     const hasErrors = Object.values(errors).some((error) => error !== "");
     if (hasErrors) {
@@ -120,9 +129,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center sm:p-8">
-      <div className="bg-white shadow-md w-full sm:max-w-lg md:max-w-xl xl:max-w-7xl min-h-screen sm:min-h-[700px] flex flex-col xl:flex-row sm:rounded-2xl overflow-hidden">
-        <div className="w-full h-[250px] xl:h-auto relative">
+    <div className="min-h-screen bg-new-white flex flex-col items-center justify-center sm:p-8">
+      <div className="bg-white shadow-md w-full sm:max-w-lg md:max-w-xl xl:max-w-6xl min-h-screen sm:min-h-[700px] flex flex-col xl:flex-row sm:rounded-2xl overflow-hidden">
+        <div className="w-full h-[200px] xl:h-auto relative">
           {/* image here */}
           {/* then ang kulay ay #0e5f97, #0e4772, #fcfcfd, #fb510f, #ecb662 */}
           <Image
@@ -139,14 +148,20 @@ export default function RegisterPage() {
             className="object-cover hidden xl:flex place-content-center place-items-center"
           />
         </div>{" "}
-        <div className="w-full p-8 place-content-center">
+        <div className="relative w-full p-8 xl:place-content-center bg-geen-500 flex flex-col flex-1 xl:flex-auto bg-white">
           <div className="flex flex-col gap-8 items-center justify-center">
-            <div className="text-2xl font-medium my-4">Create your account</div>
+            <div
+              className={`text-2xl font-semibold ${
+                globalMessage ? "mb-0" : "mb-4"
+              }`}
+            >
+              Create your account
+            </div>
 
             {/* Global validation message */}
             {globalMessage && (
               <div
-                className={`border-l-4 px-4 py-2 w-full sm:w-3/4 ${
+                className={`border-l-4 rounded-lg px-4 py-2 w-full sm:w-3/4 ${
                   globalMessage.includes("successfully")
                     ? "bg-green-100 border-green-500 text-green-500"
                     : "bg-red-100 border-red-500 text-red-500"
@@ -196,7 +211,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="col-span-2 flex flex-col gap-1">
-                  <label htmlFor="email">Email Address</label>
+                  <label htmlFor="email">Email address</label>
                   <input
                     type="email"
                     name="email"
@@ -228,7 +243,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="col-span-2 flex flex-col gap-1">
-                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <label htmlFor="confirmPassword">Confirm password</label>
                   <input
                     type="password"
                     name="confirmPassword"
@@ -245,7 +260,7 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-4 items-center my-4">
+              <div className="flex flex-col gap-4 items-center my-2">
                 <button
                   type="submit"
                   className="px-4 py-2 rounded-2xl w-full bg-blue-500 text-white transition-colors duration-150 hover:bg-blue-600"
@@ -255,7 +270,7 @@ export default function RegisterPage() {
                 <span className="text-gray-500 text-sm">
                   Already have an account?{" "}
                   <Link
-                    href="/"
+                    href="/login"
                     className="text-blue-500 hover:underline hover:underline-offset-8 transition-transform duration-150"
                   >
                     Sign in
